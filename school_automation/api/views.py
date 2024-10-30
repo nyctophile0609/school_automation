@@ -135,32 +135,33 @@ class TeacherModelViewSet(ModelViewSet):
     authentication_classes = [JWTAuthentication]
     filter_backends = [DjangoFilterBackend]
     filterset_class = TeacherModelFilter
+    permission_classes=[permissions.AllowAny]
 
     @action(detail=False,methods=["post"])
     def create_new_teacher(self,request):
         phone_number=request.data.get("phone_number")
         first_name=request.data.get("first_name")
         last_name=request.data.get("last_name")
-        status="teacher_user"
+        statust="teacher_user"
         gender=request.data.get("gender")
         address=request.data.get("address")
         image=request.FILES.get("image")
-        subject=request.data.get("teacher")
+        subject=request.data.get("subject")
         salary_type=request.data.get('salary_type')
         commission=request.data.get("commission")
         new_user=UserModel.objects.create(
             phone_number=phone_number,
             first_name=first_name,
             last_name=last_name,
-            status=status,
+            status=statust,
             image=image,
             gender=gender,
             address=address)
         new_teacher=TeacherModel.objects.create(
             teacher=new_user,
-            subject=subject,
             salary_type=salary_type,
             commission=commission,)
+        new_teacher.subject.set(subject)
         serializer=TeacherModelSerializer(new_teacher)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
