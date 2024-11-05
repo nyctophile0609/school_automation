@@ -146,7 +146,7 @@ class TeacherModelViewSet(ModelViewSet):
         gender=request.data.get("gender")
         address=request.data.get("address")
         image=request.FILES.get("image")
-        subject=request.data.get("subject")
+        subject=request.data.getlist("subject")
         salary_type=request.data.get('salary_type')
         commission=request.data.get("commission")
         new_user=UserModel.objects.create(

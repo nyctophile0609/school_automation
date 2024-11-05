@@ -28,7 +28,7 @@ class UserModel(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(default="default/default.png")
+    image = models.ImageField(default="default/default.png",null=True)
 
     USERNAME_FIELD = "phone_number"
     REQUIRED_FIELDS = []
