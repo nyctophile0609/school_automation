@@ -101,7 +101,7 @@ class StudentModelSerializer(serializers.ModelSerializer):
 class TeacherModelSerializer(serializers.ModelSerializer):
     class Meta:
         model = TeacherModel
-        fields = ["teacher", "subject", "salary_type", "commission", "created_date"]
+        fields ="__all__"
  
     def create(self, validated_data):
         lessons=validated_data.pop("subject")
