@@ -155,9 +155,9 @@ class StudentPaymentModel(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
 
 
-class TeacherSalaryPaymentModel(models.Model):
+class TeacherSalaryModel(models.Model):
     teacher = models.ForeignKey(TeacherModel, on_delete=models.SET_NULL, null=True)
-    total_payment = models.DecimalField(max_digits=16, decimal_places=2)
+    total_payment = models.DecimalField(max_digits=16, decimal_places=2,default=0)
     paid_payment = models.DecimalField(max_digits=16, decimal_places=2,default=0)
     group = models.ForeignKey(GroupModel, on_delete=models.SET_NULL, null=True, related_name="tso_group")
     total = models.BooleanField(default=False)

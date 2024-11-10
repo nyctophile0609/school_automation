@@ -260,9 +260,9 @@ def teachers_salary_1(teacher,):
         or [current_date.year + 1, 1]
     )
     se_date = date(se1, se2, 1)
-    # if TeacherSalaryPaymentModel.objects.filter``
+    # if TeacherSalaryModel.objects.filter``
     if teacher.salary_type == "fixed_salary":
-        salary_object = TeacherSalaryPaymentModel.objects.filter(
+        salary_object = TeacherSalaryModel.objects.filter(
             teacher=teacher, till_date__lte=se_date, till_date__gte=ss_date
         )
         if salary_object:
@@ -272,7 +272,7 @@ def teachers_salary_1(teacher,):
             monthly_salary = (teacher.commission / days[current_date.month]) * (
                 se_date - current_date
             ).days
-            salary_object = TeacherSalaryPaymentModel.objects.create(
+            salary_object = TeacherSalaryModel.objects.create(
                 teacher=teacher,
                 total_payment=monthly_salary,
                 group=None,
@@ -319,13 +319,13 @@ def teachers_salary_1(teacher,):
                 )
                 qw3 = (payment.total_payment / qw1) * qw2
                 gt_payment += qw3
-            if TeacherSalaryPaymentModel.objects.filter(
+            if TeacherSalaryModel.objects.filter(
                 teacher=teacher,
                 group=group,
                 till_date__lte=se_date,
                 from_date__gte=ss_date,
             ):
-                salary_object = TeacherSalaryPaymentModel.objects.filter(
+                salary_object = TeacherSalaryModel.objects.filter(
                     teacher=teacher,
                     group=group,
                     till_date__lte=se_date,
@@ -334,7 +334,7 @@ def teachers_salary_1(teacher,):
                 salary_object.total_payment = gt_payment
                 salary_object.save()
             else:
-                salary_payment = TeacherSalaryPaymentModel.objects.create(
+                salary_payment = TeacherSalaryModel.objects.create(
                     teacher=teacher,
                     total_payment=gt_payment,
                     group=group,
@@ -343,14 +343,14 @@ def teachers_salary_1(teacher,):
                 )
             total_salary += gt_payment
 
-        salary_object = TeacherSalaryPaymentModel.objects.filter(
+        salary_object = TeacherSalaryModel.objects.filter(
             teacher=teacher, till_date__lte=se_date, from_date__gte=ss_date, total=True
         ).first()
         if salary_object:
             salary_object.total_payment = total_salary
             salary_object.save()
         else:
-            salary_object = TeacherSalaryPaymentModel.objects.create(
+            salary_object = TeacherSalaryModel.objects.create(
                 teacher=teacher,
                 total_payment=total_salary,
                 group=None,
@@ -362,15 +362,19 @@ def teachers_salary_1(teacher,):
 
 
 def teachers_salary_2(teacher, group):
+    print("11111111111111111111111")
     current_date = datetime.now().date()
-    salary_object = TeacherSalaryPaymentModel.objects.get(
+    salary_object = TeacherSalaryModel.objects.get_or_create(
         till_date__lte=current_date, group=group, teacher=teacher
     )
     ss_date = salary_object.from_date
     se_date = current_date
-    total_salary_object = TeacherSalaryPaymentModel.objects.get(
+    print("11111111111111111111111")
+    total_salary_object = TeacherSalaryModel.objects.get_or_create(
         till_date__lte=se_date, teacher=teacher, total=True
     )
+    print("11111111111111111111111")
+
 
     if teacher.salary_type == "fixed_salary":
         if total_salary_object:
@@ -387,7 +391,7 @@ def teachers_salary_2(teacher, group):
             monthly_salary = (teacher.commission / days[current_date.month]) * (
                 current_date - ss_date
             ).days
-            total_salary_object = TeacherSalaryPaymentModel.objects.create(
+            total_salary_object = TeacherSalaryModel.objects.create(
                 teacher=teacher,
                 total_payment=monthly_salary,
                 group=None,

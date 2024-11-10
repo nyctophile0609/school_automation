@@ -15,7 +15,7 @@ class RoomModelFilter(django_filters.FilterSet):
     class Meta:
         model = RoomModel
         fields = ['name', 'branch', 'created_date']
-
+    
 class DiscountModelFilter(django_filters.FilterSet):
     class Meta:
         model = DiscountModel
@@ -68,7 +68,7 @@ class StudentPaymentModelFilter(django_filters.FilterSet):
 
 class TeacherSalaryPaymentModelFilter(django_filters.FilterSet):
     class Meta:
-        model = TeacherSalaryPaymentModel
+        model = TeacherSalaryModel
         fields = ['teacher', 'total_payment', 'paid_payment', 'group', 'total', 'from_date', 'till_date', 'paid_date', 'created_date']
 
 class StaffUserSalaryModelFilter(django_filters.FilterSet):
